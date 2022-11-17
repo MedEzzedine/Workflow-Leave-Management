@@ -1,0 +1,95 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-category">all user</h5>
+          <div class="d-flex justify-content-between">
+            <form>
+              <div class="input-group no-border">
+                <input
+                  type="text"
+                  value=""
+                  class="form-control"
+                  placeholder="Search... "
+                  (ngModelChange)="search($event)"
+                  [ngModel]="key"
+                  name="key"
+                />
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <i class="now-ui-icons ui-1_zoom-bold"></i>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="card-body">
+            <div class="table">
+              <div *ngIf="loading" class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+
+              <table *ngIf="!loading" class="table">
+                <thead class="text-primary text-center">
+                  <th class="text-left">Nom</th>
+                  <th>Prénom</th>
+                  <th>Role</th>
+                  <th>Email</th>
+                  <th>Adresse</th>
+
+                  <th>Groupe</th>
+                </thead>
+                <tbody *ngFor="let user of myusers">
+                  <tr class="text-center">
+                    <td class="text-left">
+                      {{ user.nom }}
+                    </td>
+                    <td>
+                      {{ user.prenom }}
+                    </td>
+                    <td>
+                      <span class="badge badge-success">{{
+                        user.roles[0].nom
+                      }}</span>
+                    </td>
+                    <td>
+                      {{ user.email }}
+                    </td>
+                    <td>
+                      {{ user.adresse }}
+                    </td>
+
+                    <th>
+                      <span class="badge badge-info">{{
+                        user.roles[0].groupe
+                          ? user.roles[0].groupe.nom
+                          : "Pas de groupe"
+                      }}</span>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+
+              <ngb-pagination
+                [boundaryLinks]="true"
+                [maxSize]="3"
+                [collectionSize]="collectionSize"
+                [(page)]="page"
+                [pageSize]="pageSize"
+                (pageChange)="nextPage($event)"
+                class="pagination-primary"
+              >
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

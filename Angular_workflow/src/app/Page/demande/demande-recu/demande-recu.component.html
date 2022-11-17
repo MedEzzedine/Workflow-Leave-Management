@@ -1,0 +1,601 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+  <section class="pt-5 pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 text-right">
+          <a
+            [attr.disabled]="
+              otherdemande_carousel || first_carousel_page ? true : null
+            "
+            (click)="carousel()"
+            class="btn btn-primary mb-3 mr-1"
+            href="#carouselExampleIndicators2"
+            role="button"
+            data-slide="prev"
+          >
+            <i class="fa fa-arrow-left"></i>
+          </a>
+          <a
+            th
+            [attr.disabled]="
+              otherdemande_carousel || !first_carousel_page ? true : null
+            "
+            (click)="carousel()"
+            class="btn btn-primary mb-3"
+            href="#carouselExampleIndicators2"
+            role="button"
+            data-slide="next"
+          >
+            <i class="fa fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="col-12">
+          <!-- data-ride="carousel" -->
+          <div
+            id="carouselExampleIndicators2"
+            class="carousel slide"
+            data-interval="false"
+          >
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <h3 class="mb-3">Demande en attente</h3>
+                <div class="row" cdkDropListGroup>
+                  <div class="col-md-4">
+                    <div class="card card-tasks">
+                      <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="card-title">Demandes à valider</h4>
+                          <!-- <div >
+                                  <button class="btn btn-block btn-round"  [routerLink]="['/demande']"  style="background-color: #ff3636;">
+                              
+                                  New </button>
+                                  
+                                </div> -->
+                        </div>
+                        <h5 class="card-category">Demandes en cours</h5>
+                      </div>
+                      <div
+                        class="card-body"
+                        cdkDropList
+                        [cdkDropListData]="Mydemande"
+                      >
+                        <div
+                          *ngIf="loadingtask"
+                          class="d-flex justify-content-center"
+                          style="color: gray"
+                        >
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        <div *ngIf="!loadingtask" class="table-full-width">
+                          <table
+                            class="table"
+                            *ngFor="let demande of Mydemande; let i = index"
+                            (click)="MysetRow(i, demande)"
+                            [ngClass]="{ highlight: MyselectedIndex === i }"
+                          >
+                            <tbody style="cursor: pointer" cdkDrag>
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+
+                                <!-- <td class="td-actions text-right">
+                                          <a class="alert-secondary float-right">Download</a>
+                                        </td> -->
+                                <td class="text-right">
+                                  <span
+                                    class="badge badge-info"
+                                    style="background-color: gray"
+                                    >encours..</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="!Myshowdetail_demande" class="col-md-4">
+                    <div class="card card-tasks">
+                      <div class="card-header">
+                        <h4 class="card-title">Demandes à accepter</h4>
+                        <h5 class="card-category" style="color: green">
+                          Demandes acceptées
+                        </h5>
+                      </div>
+                      <div
+                        class="card-body"
+                        cdkDropList
+                        (cdkDropListDropped)="drop($event)"
+                        [cdkDropListData]="demandeaaccepter"
+                      >
+                        <div
+                          *ngIf="loadingtaskhistory"
+                          class="d-flex justify-content-center"
+                          style="color: green"
+                        >
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="!loadingtaskhistory"
+                          class="table-full-width"
+                        >
+                          <table
+                            class="table"
+                            *ngFor="let demande of demandeaaccepter"
+                          >
+                            <tbody cdkDrag style="cursor: pointer">
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                              <a class="alert-secondary float-right">Download</a>
+                                            </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-success"
+                                    >non accepté</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table
+                            class="table"
+                            *ngFor="
+                              let demande of MydemandeHistory;
+                              let index = index
+                            "
+                          >
+                            <tbody
+                              *ngIf="
+                                (user.roles[0].niveau == 1 &&
+                                  demande.traitement1.etats == 'accepted') ||
+                                (user.roles[0].niveau == 2 &&
+                                  demande.traitement2.etats == 'accepted')
+                              "
+                            >
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                              <a class="alert-secondary float-right">Download</a>
+                                            </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-success"
+                                    >success..</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- table-responsive -->
+                        <div class="table-full-width"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="!Myshowdetail_demande" class="col-md-4">
+                    <div class="card card-tasks">
+                      <div class="card-header">
+                        <h4 class="card-title">Demandes à refuser</h4>
+                        <h5 class="card-category" style="color: red">
+                          Demandes refusés
+                        </h5>
+                      </div>
+                      <div
+                        class="card-body"
+                        cdkDropList
+                        (cdkDropListDropped)="drop($event)"
+                        [cdkDropListData]="demandearefuser"
+                      >
+                        <div
+                          *ngIf="loadingtaskhistory"
+                          class="d-flex justify-content-center"
+                          style="color: red"
+                        >
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="!loadingtaskhistory"
+                          class="table-full-width"
+                        >
+                          <table
+                            class="table"
+                            *ngFor="let demande of demandearefuser"
+                          >
+                            <tbody cdkDrag style="cursor: pointer">
+                              <tr>
+                                <td>
+                                  {{ demande.id }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                                <a class="alert-secondary float-right">Download</a>
+                                              </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-danger"
+                                    >non accepté</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table
+                            class="table"
+                            *ngFor="let demande of MydemandeHistory"
+                          >
+                            <tbody
+                              *ngIf="
+                                (user.roles[0].niveau == 1 &&
+                                  demande.traitement1.etats == 'refused') ||
+                                (user.roles[0].niveau == 2 &&
+                                  demande.traitement2.etats == 'refused')
+                              "
+                            >
+                              <tr>
+                                <td>
+                                  {{ demande.id }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                            <a class="alert-secondary float-right">Download</a>
+                                          </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-danger"
+                                    >refused..</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <app-shared-detail-component
+                    class="col-md-8"
+                    *ngIf="Myshowdetail_demande"
+                    [demande]="Mydetail_demande"
+                    [aaceptrefus]="false"
+                  ></app-shared-detail-component>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <h3 class="mb-3">Demande à arriver</h3>
+                <div class="row" cdkDropListGroup>
+                  <div class="col-md-4">
+                    <div class="card card-tasks">
+                      <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="card-title">Demandes</h4>
+                          <!-- <div >
+                                  <button class="btn btn-block btn-round"  [routerLink]="['/demande']"  style="background-color: #ff3636;">
+                              
+                                  New </button>
+                                  
+                                </div> -->
+                        </div>
+                        <h5 class="card-category">Taks en cours</h5>
+                      </div>
+                      <div
+                        class="card-body"
+                        cdkDropList
+                        [cdkDropListData]="otherdemande"
+                      >
+                        <div
+                          *ngIf="loadingtask"
+                          class="d-flex justify-content-center"
+                          style="color: gray"
+                        >
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        <div *ngIf="!loadingtask" class="table-full-width">
+                          <table
+                            class="table"
+                            *ngFor="let demande of otherdemande; let i = index"
+                            (click)="OthersetRow(i, demande)"
+                            [ngClass]="{ highlight: OtherselectedIndex === i }"
+                          >
+                            <tbody style="cursor: pointer" cdkDrag>
+                              <tr>
+                                <td>{{ demande.date }}</td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+
+                                <!-- <td class="td-actions text-right">
+                                          <a class="alert-secondary float-right">Download</a>
+                                        </td> -->
+                                <td class="text-right">
+                                  <span
+                                    class="badge badge-info"
+                                    style="background-color: gray"
+                                    >encours..</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="!Othershowdetail_demande" class="col-md-4">
+                    <div class="card card-tasks">
+                      <div class="card-header">
+                        <h4 class="card-title">Tasks</h4>
+                        <h5 class="card-category" style="color: green">
+                          Demande acceptée
+                        </h5>
+                      </div>
+                      <div
+                        class="card-body"
+                        cdkDropList
+                        (cdkDropListDropped)="drop($event)"
+                        [cdkDropListData]="otherdemandeaaccepter"
+                      >
+                        <div
+                          *ngIf="loadingtaskhistory"
+                          class="d-flex justify-content-center"
+                          style="color: green"
+                        >
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="!loadingtaskhistory"
+                          class="table-full-width"
+                        >
+                          <table
+                            class="table"
+                            *ngFor="let demande of otherdemandeaaccepter"
+                          >
+                            <tbody cdkDrag style="cursor: pointer">
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                              <a class="alert-secondary float-right">Download</a>
+                                            </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-success"
+                                    >non accepté</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table
+                            class="table"
+                            *ngFor="let demande of OtherdemandeHistory"
+                          >
+                            <tbody
+                              *ngIf="demande.traitement1.etats == 'accepted'"
+                            >
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                              <a class="alert-secondary float-right">Download</a>
+                                            </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-success"
+                                    >success..</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- table-responsive -->
+                        <div class="table-full-width"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="!Othershowdetail_demande" class="col-md-4">
+                    <div class="card card-tasks">
+                      <div class="card-header">
+                        <h4 class="card-title">Demandes</h4>
+                        <h5 class="card-category" style="color: red">
+                          Demandes refusées
+                        </h5>
+                      </div>
+                      <div
+                        class="card-body"
+                        cdkDropList
+                        (cdkDropListDropped)="drop($event)"
+                        [cdkDropListData]="otherdemandearefuser"
+                      >
+                        <div
+                          *ngIf="loadingtaskhistory"
+                          class="d-flex justify-content-center"
+                          style="color: red"
+                        >
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="!loadingtaskhistory"
+                          class="table-full-width"
+                        >
+                          <table
+                            class="table"
+                            *ngFor="let demande of otherdemandearefuser"
+                          >
+                            <tbody cdkDrag style="cursor: pointer">
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                                <a class="alert-secondary float-right">Download</a>
+                                              </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-danger"
+                                    >non accepté</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table
+                            class="table"
+                            *ngFor="let demande of OtherdemandeHistory"
+                          >
+                            <tbody
+                              *ngIf="demande.traitement1.etats == 'refused'"
+                            >
+                              <tr>
+                                <td>
+                                  {{ demande.date }}
+                                </td>
+
+                                <td class="text-left">
+                                  Demande de conge {{ demande.typeConge }} de
+                                  {{ demande.dateDebut }} le
+                                  {{ dateDebutPlusDetaile }} vers
+                                  {{ demande.dateFin }} le
+                                  {{ demande.dateFinPlusDetaile }}
+                                </td>
+                                <!-- <td class="td-actions text-right">
+                                            <a class="alert-secondary float-right">Download</a>
+                                          </td> -->
+                                <td class="text-right">
+                                  <span class="badge badge-danger"
+                                    >refused..</span
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <app-shared-detail-component
+                    class="col-md-8"
+                    *ngIf="Othershowdetail_demande"
+                    [demande]="Otherdetail_demande"
+                    [aaceptrefus]="false"
+                  ></app-shared-detail-component>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        (click)="send()"
+        class="btn btn-block btn-round col-md-2 float-right"
+        [disabled]="canceldisable"
+        style="background-color: #ff3636"
+      >
+        <div
+          id="spinner"
+          *ngIf="saveloading"
+          class="spinner-border float-right clearfix"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        save
+      </button>
+      <button
+        (click)="cancel()"
+        [disabled]="canceldisable"
+        class="btn btn-block btn-round btn-info col-md-2 float-right"
+      >
+        cancel
+      </button>
+    </div>
+  </section>
+</div>

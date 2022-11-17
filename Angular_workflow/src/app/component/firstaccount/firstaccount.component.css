@@ -1,0 +1,15 @@
+
+.spinner-border{
+    align-items: center;
+    justify-content: space-between;
+    width: 15px;
+    height: 15px;
+}
+
+
+
+@media screen and (min-width: 991px) {  
+    .page-header .container > .content-center {
+        transform: translate(-77%, -50%) !important;
+    }
+    }

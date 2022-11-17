@@ -1,0 +1,153 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <!-- <h5 class="card-category">demande  de conge</h5> -->
+          <div class="d-flex justify-content-between">
+            <h4 class="card-title">Add role</h4>
+          </div>
+          <div class="card-body">
+            <div
+              *ngIf="show_initialLoader"
+              class="d-flex justify-content-center"
+            >
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+            <form [formGroup]="roleForm" *ngIf="!show_initialLoader">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>nom</label>
+
+                  <div class="form-group">
+                    <input
+                      formControlName="nom"
+                      class="form-control"
+                      placeholder="nom"
+                      type="text"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>niveau</label>
+                  <div class="form-group">
+                    <input
+                      formControlName="niveau"
+                      class="form-control"
+                      placeholder="niveau"
+                      type="number"
+                      min="0"
+                      max="2"
+                      (change)="saverange()"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <label>Groupe</label>
+                  <div>
+                    <!-- formArrayName="groupe" -->
+                    <!--   *ngFor="let groupe of groupe.controls; let i=index"  -->
+                    <div [formGroup]="groupe" *ngIf="newGroupe">
+                      <div
+                        class="d-flex justify-content-between"
+                        style="align-items: center"
+                      >
+                        <input
+                          formControlName="nom"
+                          class="form-control"
+                          placeholder="new groupe..."
+                          type="text"
+                        />
+                        <td class="text-right">
+                          <span
+                            (click)="deleteLesson()"
+                            class="badge badge"
+                            style="color: #ff3636; cursor: pointer"
+                            >back..</span
+                          >
+                        </td>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    [formGroup]="groupe"
+                    class="d-flex justify-content-between"
+                    style="align-items: center"
+                    *ngIf="!newGroupe"
+                  >
+                    <select
+                      formControlName="id"
+                      name="dropdownOption"
+                      id="dropdownOption"
+                      class="form-control"
+                    >
+                      <option
+                        *ngFor="let groupe of Listgroupe"
+                        [value]="groupe.id"
+                      >
+                        {{ groupe.nom }}
+                      </option>
+                    </select>
+
+                    <td class="text-right">
+                      <span
+                        (click)="newgroupe()"
+                        class="badge badge"
+                        style="color: #ff3636; cursor: pointer"
+                        >new..</span
+                      >
+                    </td>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label>Permissions</label>
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Select Your Permissions'"
+                    [settings]="dropdownSettings"
+                    [data]="dropdownList"
+                    formControlName="permissions"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    (onDeSelectAll)="onUnSelectAll()"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+
+              <div class="col-md-4 pull-right">
+                <button
+                  (click)="send()"
+                  class="btn btn-block btn-round"
+                  [disabled]="this.roleForm.invalid || show_submitLoader"
+                  style="background-color: #ff3636"
+                >
+                  <div
+                    *ngIf="show_submitLoader"
+                    id="spinner"
+                    class="spinner-border float-right clearfix"
+                    role="status"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+
+                  send
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

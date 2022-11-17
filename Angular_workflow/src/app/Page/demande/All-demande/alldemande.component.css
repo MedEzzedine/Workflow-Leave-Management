@@ -1,0 +1,7 @@
+.badge{
+    border-radius: 25rem;
+}
+.mat-paginator-page-size{
+
+display: none !important;
+}

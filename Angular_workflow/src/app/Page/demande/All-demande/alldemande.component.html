@@ -1,0 +1,109 @@
+<div class="panel-header panel-header-sm">
+ 
+</div>
+
+<div class="main-content">
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <!-- <h5 class="card-category">demande  de conge</h5> -->
+            <div class="d-flex justify-content-between" >
+            
+                <form>
+                  <div class="input-group no-border">
+                    <input type="text" value="" class="form-control" placeholder="Search... "  (ngModelChange)="search($event)" [ngModel]="key" name="key" >
+                    <div class="input-group-append">
+                      
+                      <div class="input-group-text">
+                        <i class="now-ui-icons ui-1_zoom-bold"></i>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+            
+           
+              <div >
+                <button *ngIf="user.roles[0].niveau !=3" class="btn btn-block btn-round"  [routerLink]="['/admin/demande/adddemande']"  style="background-color: #ff3636;">
+            
+                New </button>
+                
+              </div>
+              </div>
+          
+          <div class="card-body">
+            <div class="table">
+              <div *ngIf="loading" class="d-flex justify-content-center" >
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+              <table *ngIf="!loading " class="table">
+                <thead class=" text-primary text-center">
+                  <th class="text-left">
+                    typeConge
+                  </th>
+                  <th>
+                    Duree(jours)
+                  </th>
+                  <th>
+                    DateDebut
+                  </th>
+                  <th >
+                    dateFin
+                  </th>
+                  <th class="text-right">
+                    resultat
+                  </th> 
+                  <th class="text-right">
+                    pdf
+                  </th>
+                </thead>
+                <tbody *ngFor=" let demande of Mydemande  ">
+                  <tr class="text-center">
+                    <td class="text-left">
+                      {{demande.typeConge}}
+                    </td>
+                    <td>
+                      {{demande.duree}} 
+                    </td>
+                    <td>
+                      {{demande.dateDebut}}
+                    </td>
+                    <td >
+                      {{demande.dateFin}}
+                    </td>
+                    <td class="text-right" *ngIf="demande.traitement1.etats=='encours' || demande.traitement2.etats=='encours' || demande.decision=='encours'">
+                      <span class="badge badge-info" style="background-color: gray;">encours..</span>
+                    </td>
+                    <td class="text-right" *ngIf="demande.decision=='accepted'">
+                      <span class="badge badge-success" >accepte..</span>
+                    </td>
+                    <td class="text-right" *ngIf="demande.traitement1.etats=='refused' || demande.traitement2.etats=='refused'|| demande.decision=='refused'">
+                      <span class="badge badge-danger" >refuse..</span>
+                    </td>
+                  
+                    <td class="text-right" *ngIf="demande.pdf==true" >
+                      <span class="badge badge-info" (click)="seepdf(demande.id)" style="cursor: pointer;" >voir..</span>
+                    </td>
+                    <td class="text-right" *ngIf="demande.pdf==false">
+                      <span class="badge badge-info"  >indisponible</span>
+                    </td>
+                     
+                     
+                </tbody>
+              </table>
+              <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator> -->
+
+              <ngb-pagination  
+              [boundaryLinks]="true"  [maxSize]="3" [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="nextPage($event);" class="pagination-primary">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+</div>
+
+</div>

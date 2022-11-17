@@ -1,0 +1,151 @@
+<!-- filter-color="orange" -->
+<div class="page-header login-page">
+  <div class="container col-md-5">
+    <div class="col-md-8 content-center">
+      <div class="card">
+        <div class="card-body">
+          <div
+            *ngIf="show_initial_Loader"
+            class="d-flex justify-content-center"
+          >
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+          <form [formGroup]="completeRegister" *ngIf="!show_initial_Loader">
+            <div class="row">
+              <div class="col-md-5 pr-1">
+                <div class="form-group">
+                  <label>Company (disabled)</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    disabled=""
+                    placeholder="Company"
+                    value="Tritux group"
+                  />
+                </div>
+              </div>
+              <!-- <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Username" value="michael23">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input name="email" id="email" type="email" class="form-control" placeholder="Email">
+                      </div>
+                    </div> -->
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Nom</label>
+
+                <div class="form-group">
+                  <input
+                    formControlName="nom"
+                    class="form-control"
+                    placeholder="nom"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label>Prenom</label>
+                <div class="form-group">
+                  <input
+                    formControlName="prenom"
+                    class="form-control"
+                    placeholder="nom"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Email</label>
+
+                <div class="form-group">
+                  <input
+                    [attr.disabled]="Email_disable == true ? true : null"
+                    formControlName="email"
+                    class="form-control"
+                    placeholder="email"
+                    type="email"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label>Adresse</label>
+                <div class="form-group">
+                  <input
+                    formControlName="adresse"
+                    class="form-control"
+                    placeholder="Adresse"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>Date de Naissance</label>
+                <div class="datepicker-container">
+                  <div class="form-group">
+                    <input
+                      formControlName="datenaissance"
+                      class="form-control datetimepicker"
+                      placeholder="28/06/2022"
+                      type="date"
+                      name="dp"
+                      data-color="red"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label>Password</label>
+                <div class="form-group">
+                  <input
+                    formControlName="password"
+                    class="form-control"
+                    placeholder="Passowrd"
+                    type="password"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 pull-right">
+              <button
+                (click)="send()"
+                class="btn btn-block btn-round"
+                [disabled]="this.completeRegister.invalid || Submit_loader"
+                style="background-color: #ff3636"
+              >
+                <div
+                  *ngIf="Submit_loader"
+                  id="spinner"
+                  class="spinner-border float-right clearfix"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+
+                send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

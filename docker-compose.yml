@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: Database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=workflow
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+ 
+  backend:
+    build: ./workflow/
+    container_name: Backend
+    ports:
+      - "8081:8081"
+    links:
+      - "db"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/workflow
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    restart: always
+    
+  frontend:
+    build: ./Angular_workflow/
+    container_name: Frontend
+    links:
+      - "backend"
+    depends_on:
+      - "backend"
+    ports:
+      - "80:80"  

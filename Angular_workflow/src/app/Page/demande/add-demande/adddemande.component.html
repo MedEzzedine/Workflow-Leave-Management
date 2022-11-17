@@ -1,0 +1,184 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">demande</h5>
+        </div>
+        <div class="card-body">
+       
+            <div *ngIf="initloading" class="d-flex justify-content-center" >
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+          </div>
+      
+          <form [formGroup]="demandeForm" *ngIf="!initloading" >
+            <div class="row">
+              <div class="col-md-5 pr-1">
+                <div class="form-group">
+                  <label>Company (disabled)</label>
+                  <input type="text" class="form-control" disabled="" placeholder="Company" value="Tritux group">
+                </div>
+              </div>
+              <!-- <div class="col-md-3 px-1">
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-control" placeholder="Username" value="michael23">
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label for="email">Email address</label>
+                  <input name="email" id="email" type="email" class="form-control" placeholder="Email">
+                </div>
+              </div> -->
+            </div>
+              <div class="row">
+                  <div class="col-md-6">
+                    
+                <label>Date de debut</label>
+                      <div class="datepicker-container">
+                          <div class="form-group">
+                            <input (change)="Dateevent()" formControlName="dateDebut"  class="form-control datetimepicker" placeholder="28/06/2022"
+                                type="date" name="dp"  data-color="red" >
+                          </div>
+              
+                      </div>
+                  </div>
+                  
+            
+            </div>
+              <div class="row">
+                  <div class="col-md-6">
+                     <div class="form-group">
+                <label>Date de find</label>
+                      <div class="datepicker-container">
+                          <div class="form-group">
+                            <input (change)="Dateevent()" formControlName="dateFin"  class="form-control datetimepicker" placeholder="28/06/2022"
+                               type="date">
+                          </div>
+                          <!-- sty ngbDatepicker #e="ngbDatepicker" (click)="e.toggle()" data-color="red" -->
+                      </div></div>
+                  </div>
+             
+              </div>
+         
+            <!-- <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input type="text" class="form-control" placeholder="Company" value="Mike">
+                </div>
+              </div>
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Address</label>
+                  <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                </div>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>type de congé</label>
+                  <select  formControlName="typeConge"  name="dropdownOption" id="dropdownOption" class='form-control'>
+              
+                    <option value="Compensation">Compensation</option>
+                    <option value="payés">payés</option>
+                    <option value="maternité">maternité</option>
+                    <option value="paternité">paternité</option>
+                    <option value="ancienneté">'ancienneté</option>
+                    <option value="ancienneté">maladies</option>
+                    <option value="Autre...">pour d'autrs besoins...</option>
+                    </select> </div>
+              </div>
+              <!-- <div class="col-md-4">
+                <div class="form-group">
+                  <label>cause</label>
+                  <select  name="dropdownOption" id="dropdownOption" class='form-control'>
+                    <option value="1">Matin</option>
+                    <option value="2">Après-midi</option>
+                    </select> </div>
+              </div> -->
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label>duree en jours</label>
+                  <input formControlName="duree"  type="number" class="form-control" placeholder="en-jours.." disabled  >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Justification (optionelle)</label>
+                  <textarea  formControlName="justification" rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">your text here ........</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 pull-right  " >
+              <button (click)="send()" class="btn btn-block btn-round"  [disabled]="this.demandeForm.invalid || loading"  style="background-color: #ff3636;">
+           
+                  <div *ngIf="loading" id="spinner" class="spinner-border float-right clearfix" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+              
+                send</button>
+                
+            </div>
+          </form>
+        </div>
+
+
+        
+      </div>
+    </div>
+
+    
+    <!-- <div class="col-md-4">
+      <div class="card card-user">
+        <div class="image">
+          <img src="../assets/img/bg5.jpg" alt="...">
+        </div>
+        <div class="card-body">
+          <div class="author">
+            <a href="#">
+              <img class="avatar border-gray" src="../assets/img/mike.jpg" alt="...">
+              <h5 class="title">Mike Andrew</h5>
+            </a>
+            <p class="description">
+              michael24
+            </p>
+          </div>
+          <p class="description text-center">
+            "Lamborghini Mercy
+            <br> Your chick she so thirsty
+            <br> I'm in that two seat Lambo"
+          </p>
+        </div>
+        <hr>
+        <div class="button-container">
+          <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+            <i class="fab fa-facebook-f"></i>
+          </button>
+          <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+            <i class="fab fa-twitter"></i>
+          </button>
+          <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+            <i class="fab fa-google-plus-g"></i>
+          </button>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>

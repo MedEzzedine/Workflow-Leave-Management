@@ -1,0 +1,20 @@
+
+<div class="d-flex justify-content-end " style="align-items: center;">
+<button (click)="valid()" class="btn btn-block btn-round col-md-2 float-right"     style="background-color: #ff3636 ;">
+           
+    <div id="spinner" *ngIf="saveloading" class="spinner-border float-right clearfix" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    save
+</button>
+<button (click)="cancel()"  class="btn btn-block btn-round btn-info col-md-2 float-right  "   >
+ cancel
+</button>
+</div>
+<!-- <div *ngIf="show_Loader" class="d-flex justify-content-center" style="margin-top: 200px ;" >
+    <div class="spinner-border" role="status" style="width: 7rem;
+    height: 7rem; ">
+      <span class="sr-only">Loading...</span>
+    </div>
+</div> -->
+<div #viewer class="viewer" ></div>

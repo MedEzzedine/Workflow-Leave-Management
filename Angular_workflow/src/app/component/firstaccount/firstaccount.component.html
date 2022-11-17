@@ -1,0 +1,96 @@
+<!-- filter-color="orange" -->
+<div class="page-header login-page">
+  <div
+    class="page-header-image"
+    style="background-image: url(assets/img/blurred-image-1.jpg)"
+  ></div>
+  <div class="container col-md-5">
+    <div class="col-md-8 content-center">
+      <div class="card">
+        <div class="card-body">
+          <!--              
+                  <div *ngIf="initloading" class="d-flex justify-content-center" >
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                </div> -->
+
+          <form [formGroup]="firstaccount">
+            <div class="row">
+              <div class="col-md-5 pr-1">
+                <div class="form-group">
+                  <label>Company (disabled)</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    disabled=""
+                    placeholder="Company"
+                    value="Tritux group"
+                  />
+                </div>
+              </div>
+              <!-- <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Username" value="michael23">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input name="email" id="email" type="email" class="form-control" placeholder="Email">
+                      </div>
+                    </div> -->
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>email</label>
+
+                <div class="form-group">
+                  <input
+                    formControlName="email"
+                    class="form-control"
+                    placeholder="email"
+                    type="email"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label>password</label>
+                <div class="form-group">
+                  <input
+                    formControlName="password"
+                    class="form-control"
+                    placeholder="password"
+                    type="password"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 pull-right">
+              <button
+                (click)="send()"
+                class="btn btn-block btn-round"
+                [disabled]="this.firstaccount.invalid || Submit_loader"
+                style="background-color: #ff3636"
+              >
+                <div
+                  *ngIf="Submit_loader"
+                  id="spinner"
+                  class="spinner-border float-right clearfix"
+                  role="status"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+
+                send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

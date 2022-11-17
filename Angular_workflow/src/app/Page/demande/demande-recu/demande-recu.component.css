@@ -1,0 +1,17 @@
+
+.badge{
+    border-radius: 25rem;
+    font-size: x-small;
+}
+#spinner{
+    align-items: center;
+    justify-content: space-between;
+    width: 15px;
+    height: 15px;
+}
+
+.carousel .carousel-inner {
+    box-shadow:none !important;
+}
+
+.highlight{ background-color: rgb(233, 255, 161) }
