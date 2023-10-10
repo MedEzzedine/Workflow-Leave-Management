@@ -4,6 +4,8 @@ services:
   db:
     image: postgres:14-alpine
     container_name: Database
+    networks:
+      - default_network
     ports:
       - "5432:5432"
     environment:
@@ -22,10 +24,10 @@ services:
   backend:
     build: ./workflow/
     container_name: Backend
+    networks:
+      - default_network
     ports:
       - "8081:8081"
-    links:
-      - "db"
     depends_on:
       db:
         condition: service_healthy
@@ -38,9 +40,13 @@ services:
   frontend:
     build: ./Angular_workflow/
     container_name: Frontend
-    links:
-      - "backend"
+    networks:
+      - default_network
     depends_on:
       - "backend"
     ports:
-      - "80:80"  
+      - "80:80"
+
+networks:
+  default_network:
+    driver: bridge
